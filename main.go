@@ -74,8 +74,9 @@ func (s *server) mutateClusterCNI(ar *admv1.AdmissionReview) error {
 	}
 
 	if cluster.Labels["hackaton-cni"] != "" {
-		cluster.Spec.CNIPlugin.Type = v1.CNIPluginType(cluster.Labels["hackaton-cni"])
-		cluster.Spec.CNIPlugin.Version = ""
+		cluster.Spec.CNIPlugin = &v1.CNIPluginSettings{
+			Type: v1.CNIPluginType(cluster.Labels["hackaton-cni"]),
+		}
 	} else {
 		klog.Errorf("nothing to do for request %v/%v: %v", ar.Request.Namespace, ar.Request.Name, cluster.Labels)
 		return nil
