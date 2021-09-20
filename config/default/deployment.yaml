@@ -1,0 +1,38 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: cluster-cni-wh-hack
+spec:
+  selector:
+    matchLabels:
+      control-plane: cluster-cni-wh-hack
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        control-plane: cluster-cni-wh-hack
+    spec:
+      containers:
+      - command:
+        - /cluster-cni-wh-hack
+        image: wozniakjan/cluster-cni-wh-hack:latest
+        name: cluster-cni-wh-hack
+        ports:
+        - containerPort: 9443
+          name: validating-hook
+        resources:
+          limits:
+            cpu: 100m
+            memory: 128Mi
+          requests:
+            cpu: 10m
+            memory: 32Mi
+        volumeMounts:
+        - name: admission-webhook-tls
+          mountPath: "/var/run/secrets/webhook"
+          readOnly: true
+      serviceAccountName: cluster-cni-wh-hack
+      volumes:
+      - name: admission-webhook-tls
+        secret:
+          secretName: cluster-cni-wh-hack-admission-webhook-tls

@@ -1,0 +1,30 @@
+apiVersion: admissionregistration.k8s.io/v1beta1
+kind: MutatingWebhookConfiguration
+metadata:
+  name: aaa-cluster-cni-hackaton
+  annotations:
+    cert-manager.io/inject-ca-from: $(CERTIFICATE_NAMESPACE)/$(CERTIFICATE_NAME)
+webhooks:
+- admissionReviewVersions:
+  - v1
+  clientConfig:
+    service:
+      name: cluster-cni-wh-hack-webhook
+      namespace: hackaton-cni-cilium
+      path: /mutate-cluster-cni
+  failurePolicy: Fail
+  matchPolicy: Equivalent
+  name: cni-hack.cluster-cni-wh-hack.kubermatic.k8s.io
+  reinvocationPolicy: Never
+  rules:
+  - apiGroups:
+    - kubermatic.k8s.io
+    apiVersions:
+    - v1
+    operations:
+    - CREATE
+    resources:
+    - clusters
+    scope: '*'
+  sideEffects: None
+  timeoutSeconds: 30

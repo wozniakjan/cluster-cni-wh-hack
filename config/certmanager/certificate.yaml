@@ -1,0 +1,23 @@
+apiVersion: cert-manager.io/v1alpha2
+kind: Issuer
+metadata:
+  name: cluster-cni-wh-hack-selfsigned-issuer
+spec:
+  selfSigned: {}
+---
+apiVersion: cert-manager.io/v1alpha2
+kind: Certificate
+metadata:
+  name: cluster-cni-wh-hack-webhook-serving-cert
+spec:
+  commonName: $(SERVICE_NAME).$(SERVICE_NAMESPACE).svc
+  dnsNames:
+  - $(SERVICE_NAME).$(SERVICE_NAMESPACE).svc.cluster.local
+  - $(SERVICE_NAME).$(SERVICE_NAMESPACE).svc
+  issuerRef:
+    kind: Issuer
+    name: cluster-cni-wh-hack-selfsigned-issuer
+  secretName: cluster-cni-wh-hack-admission-webhook-tls
+  isCA: true
+  duration: 17088h #(24*356*2)h = 2years
+  renewBefore: 744h #(24*31)h = 1month

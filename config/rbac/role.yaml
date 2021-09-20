@@ -1,0 +1,12 @@
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  name: cluster-cni-wh-hack
+rules:
+- apiGroups:
+  - "kubermatic.k8s.io"
+  resources:
+  - clusters
+  verbs:
+  - [get,list,watch,patch,update,create,delete]

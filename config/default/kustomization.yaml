@@ -1,0 +1,40 @@
+namespace: hackaton-cni-cilium
+
+commonLabels:
+  control-plane: cluster-cni-wh-hack
+
+bases:
+- ../rbac
+- ../webhook
+- ../certmanager
+
+resources:
+- deployment.yaml
+
+vars:
+- name: CERTIFICATE_NAMESPACE
+  objref:
+    kind: Certificate
+    group: cert-manager.io
+    version: v1alpha2
+    name: cluster-cni-wh-hack-webhook-serving-cert
+  fieldref:
+   fieldpath: metadata.namespace
+- name: CERTIFICATE_NAME
+  objref:
+    kind: Certificate
+    group: cert-manager.io
+    version: v1alpha2
+    name: cluster-cni-wh-hack-webhook-serving-cert
+- name: SERVICE_NAMESPACE
+  objref:
+    kind: Service
+    version: v1
+    name: cluster-cni-wh-hack-webhook
+  fieldref:
+   fieldpath: metadata.namespace
+- name: SERVICE_NAME
+  objref:
+    kind: Service
+    version: v1
+    name: cluster-cni-wh-hack-webhook
