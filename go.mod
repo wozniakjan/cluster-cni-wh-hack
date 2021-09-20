@@ -17,6 +17,7 @@ require (
 	github.com/gorilla/mux v1.8.0
 	gomodules.xyz/jsonpatch/v2 v2.2.0
 	k8c.io/kubermatic/v2 v2.18.0
+	k8s.io/api v0.21.3
 	k8s.io/klog v1.0.0
 )
 
@@ -36,7 +37,6 @@ require (
 	golang.org/x/text v0.3.6 // indirect
 	gopkg.in/inf.v0 v0.9.1 // indirect
 	gopkg.in/yaml.v2 v2.4.0 // indirect
-	k8s.io/api v0.21.3 // indirect
 	k8s.io/apiextensions-apiserver v0.21.3 // indirect
 	k8s.io/apimachinery v0.21.3 // indirect
 	k8s.io/client-go v12.0.0+incompatible // indirect
