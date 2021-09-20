@@ -15,6 +15,7 @@ import (
 
 	v1 "k8c.io/kubermatic/v2/pkg/crd/kubermatic/v1"
 	admv1 "k8s.io/api/admission/v1"
+	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 )
 
 type checkFn func(ar *admv1.AdmissionReview) error
@@ -116,7 +117,16 @@ func serve(resp http.ResponseWriter, req *http.Request, check checkFn) {
 		return
 	}
 
-	respReview := &admv1.AdmissionReview{}
+	respReview := &admv1.AdmissionReview{
+		Response: &admv1.AdmissionResponse{
+			Allowed: true,
+			Result: &metav1.Status{
+				Status:  "Success",
+				Message: "Request permitted",
+				Code:    http.StatusOK,
+			},
+		},
+	}
 	reqReviewCopy := reqReview.DeepCopy()
 	klog.Infof("request raw body: %v", string(reqReview.Request.Object.Raw))
 	if err := check(reqReview); err == nil {

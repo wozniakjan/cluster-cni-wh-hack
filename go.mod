@@ -18,6 +18,7 @@ require (
 	gomodules.xyz/jsonpatch/v2 v2.2.0
 	k8c.io/kubermatic/v2 v2.18.0
 	k8s.io/api v0.21.3
+	k8s.io/apimachinery v0.21.3
 	k8s.io/klog v1.0.0
 )
 
@@ -38,7 +39,6 @@ require (
 	gopkg.in/inf.v0 v0.9.1 // indirect
 	gopkg.in/yaml.v2 v2.4.0 // indirect
 	k8s.io/apiextensions-apiserver v0.21.3 // indirect
-	k8s.io/apimachinery v0.21.3 // indirect
 	k8s.io/client-go v12.0.0+incompatible // indirect
 	k8s.io/klog/v2 v2.9.0 // indirect
 	k8s.io/utils v0.0.0-20210722164352-7f3ee0f31471 // indirect
