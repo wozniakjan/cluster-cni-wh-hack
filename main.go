@@ -154,7 +154,7 @@ func configTLS() *tls.Config {
 }
 
 func newServer() *server {
-	klog.Info("creating quota admission webhook server")
+	klog.Info("creating cluster CNI hack webhook")
 	router := mux.NewRouter()
 	s := &server{
 		sv: &http.Server{
