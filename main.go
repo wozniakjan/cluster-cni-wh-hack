@@ -118,7 +118,12 @@ func serve(resp http.ResponseWriter, req *http.Request, check checkFn) {
 	}
 
 	respReview := &admv1.AdmissionReview{
+		TypeMeta: metav1.TypeMeta{
+			Kind:       "AdmissionReview",
+			APIVersion: "admission.k8s.io/v1",
+		},
 		Response: &admv1.AdmissionResponse{
+			UID:     reqReview.Request.UID,
 			Allowed: true,
 			Result: &metav1.Status{
 				Status:  "Success",
@@ -146,6 +151,8 @@ func serve(resp http.ResponseWriter, req *http.Request, check checkFn) {
 	if _, err := resp.Write(respBytes); err != nil {
 		klog.Errorf("failed to write response: %v", err)
 		return
+	} else {
+		klog.Infof("response", string(respBytes))
 	}
 	klog.Infof("finished successfully %v/%v", reqReview.Request.Namespace, reqReview.Request.Name)
 }
