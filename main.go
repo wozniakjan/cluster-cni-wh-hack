@@ -74,11 +74,14 @@ func (s *server) mutateClusterCNI(ar *admv1.AdmissionReview) error {
 		return fmt.Errorf("failed to parse request raw object")
 	}
 
+	cluster.Spec.CNIPlugin = &v1.CNIPluginSettings{}
 	if cluster.Labels["hackaton-cni"] != "" {
-		cluster.Spec.CNIPlugin = &v1.CNIPluginSettings{
-			Type: v1.CNIPluginType(cluster.Labels["hackaton-cni"]),
-		}
-	} else {
+		cluster.Spec.CNIPlugin.Type = v1.CNIPluginType(cluster.Labels["hackaton-cni"])
+	}
+	if cluster.Labels["hackaton-cni-version"] != "" {
+		cluster.Spec.CNIPlugin.Version = cluster.Labels["hackaton-cni-version"]
+	}
+	if cluster.Labels["hackaton-cni"] == "" && cluster.Labels["hackaton-cni-version"] == "" {
 		klog.Errorf("nothing to do for request %v/%v: %v", ar.Request.Namespace, ar.Request.Name, cluster.Labels)
 		return nil
 	}
